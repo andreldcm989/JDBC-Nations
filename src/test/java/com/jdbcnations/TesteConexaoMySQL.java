@@ -1,20 +1,25 @@
 package com.jdbcnations;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 import com.jdbcnations.db.ConnectionFactory;
 
 public class TesteConexaoMySQL {
-    ConnectionFactory factory = new ConnectionFactory();
+    private static ConnectionFactory factory;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
+
+    @BeforeAll
+    public static void instanciaFabricaDeConexao() {
+        factory = new ConnectionFactory();
+    }
 
     @Test
     public void testaConexaoJDBC() {
