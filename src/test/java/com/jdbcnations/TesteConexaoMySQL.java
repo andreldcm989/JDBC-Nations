@@ -3,25 +3,24 @@ package com.jdbcnations;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.junit.Test;
 
+import com.jdbcnations.db.ConnectionFactory;
+
 public class TesteConexaoMySQL {
-    private String url = "jdbc:mysql://localhost:3306/world";
-    private String user = "root";
-    private String senha = "12345678";
+    ConnectionFactory factory = new ConnectionFactory();
     private PreparedStatement ps = null;
     private ResultSet rs = null;
 
     @Test
     public void testaConexaoJDBC() {
-        try (Connection conn = DriverManager.getConnection(url, user, senha)) {
+        try (Connection conn = factory.abrirConexao()) {
             System.out.println("Conexão iniciada!");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Conexão falhou!");
             assertEquals("Access denied for user 'root'@'localhost' (using password: YES)", e.getMessage());
         }
@@ -29,7 +28,7 @@ public class TesteConexaoMySQL {
 
     @Test
     public void verificaContinenteDoBrasil() {
-        try (Connection conn = DriverManager.getConnection(url, user, senha)) {
+        try (Connection conn = factory.abrirConexao()) {
             ps = conn.prepareStatement("SELECT region FROM country WHERE code = ?");
             ps.setString(1, "BRA");
             rs = ps.executeQuery();
@@ -42,6 +41,15 @@ public class TesteConexaoMySQL {
         } catch (SQLException e) {
             System.out.println("Conexão falhou!");
             System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testaConexoesComDataSource() {
+        ConnectionFactory factory = new ConnectionFactory();
+        for (int i = 1; i <= 10; i++) {
+            factory.abrirConexao();
+            System.out.println("Conexão nº " + i);
         }
     }
 }
