@@ -62,4 +62,10 @@ public class Pais {
         cidades.add(cidade);
     }
 
+    @Override
+    public String toString() {
+        return String.format("Cód.: %-4s | País: %-20s | Capital: %-30s | Continente: %-20s", codigo, nomePais, capital,
+                continente);
+    }
+
 }
