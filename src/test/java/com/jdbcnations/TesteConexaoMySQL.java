@@ -32,21 +32,18 @@ public class TesteConexaoMySQL {
     }
 
     @Test
-    public void verificaContinenteDoBrasil() {
-        try (Connection conn = factory.abrirConexao()) {
-            ps = conn.prepareStatement("SELECT region FROM country WHERE code = ?");
-            ps.setString(1, "BRA");
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                String continente = rs.getString("Region");
-                assertEquals("South America", continente);
-            }
-            rs.close();
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println("Conexão falhou!");
-            System.out.println(e.getMessage());
+    public void verificaContinenteDoBrasil() throws SQLException {
+        Connection conn = factory.abrirConexao();
+        ps = conn.prepareStatement("SELECT region FROM country WHERE code = ?");
+        ps.setString(1, "BRA");
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            String continente = rs.getString("Region");
+            assertEquals("South America", continente);
         }
+        rs.close();
+        ps.close();
+        conn.close();
     }
 
     @Test
