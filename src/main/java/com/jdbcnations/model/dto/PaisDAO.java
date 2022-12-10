@@ -31,7 +31,6 @@ public class PaisDAO {
         try {
             st = conn.prepareStatement(query);
             st.setString(1, continente);
-            System.out.println(st.toString());
             rs = st.executeQuery();
             while (rs.next()) {
                 String codigo = rs.getString(1);
