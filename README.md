@@ -1,4 +1,4 @@
-# App Previsão do tempo
+# Java DataBase Connectivity - JDBC
 
 #### Bem-Vindo! 👋
 
